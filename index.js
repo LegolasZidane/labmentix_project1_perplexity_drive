@@ -17,13 +17,9 @@ app.use('/api/auth', authRoutes);
 app.get("/", (req, res, next) => {
     
     try{
-
         res.send("Perplexity Drive Backend Running");
-
     } catch (err) {
-
         next(err);
-
     }
 });
 
