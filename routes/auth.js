@@ -1,5 +1,5 @@
 import express from 'express';
-import supabase from '../supabaseClient.js';
+import { supabase } from '../config/supabaseClient.js';
 import { supabaseProxyAuth } from '../middlewares/supabaseProxyAuth.js';
 
 const router = express.Router();
@@ -38,7 +38,7 @@ router.post('/login', async(req, res) => {
     res.status(201).json({ message: 'Login successful', data });
 });
 
-router.post('/logout', supabaseProxyAuth('auth.users'), (req, res) => {
+router.post('/logout', supabaseProxyAuth, (req, res) => {
 
     res.json({
         message: 'Logged Out Successfully!'

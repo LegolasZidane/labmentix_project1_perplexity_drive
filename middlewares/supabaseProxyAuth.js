@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_KEY;
 
-export function supabaseProxyAuth(supabaseEndpoint){
+export function supabaseProxyAuth(){
     
     return async(req, res, next) => {
 
@@ -17,7 +17,7 @@ export function supabaseProxyAuth(supabaseEndpoint){
 
         try{
 
-            const supabaseResponse = await fetch(`${SUPABASE_URL}/rest/v1/${supabaseEndpoint}`, {
+            const supabaseResponse = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
 
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -31,7 +31,7 @@ export function supabaseProxyAuth(supabaseEndpoint){
 
             const data = await supabaseResponse.json();
             req.supabaseData = data;
-
+            
             next();
         } catch ( error ){
 

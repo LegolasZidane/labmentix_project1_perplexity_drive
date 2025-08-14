@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { errorHandler } from "./middlewares/errorHandler.js";
 import authRoutes from './routes/auth.js';
+import fileRoutes from './routes/file.js';
 
 dotenv.config();
 
@@ -13,6 +14,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
+
+app.use('/api/files', fileRoutes);
 
 app.get("/", (req, res, next) => {
     
