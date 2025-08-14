@@ -38,7 +38,7 @@ router.post('/login', async(req, res) => {
     res.status(201).json({ message: 'Login successful', data });
 });
 
-router.post('/logout', supabaseProxyAuth, (req, res) => {
+router.post('/logout', supabaseProxyAuth(), (req, res) => {
 
     res.json({
         message: 'Logged Out Successfully!'

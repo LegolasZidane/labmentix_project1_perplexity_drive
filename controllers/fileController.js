@@ -55,3 +55,74 @@ export const uploadFile = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const renameFile = async (req, res) => {
+
+    try{
+
+        const { fileId, newName } = req.body;
+        const userId = req.supabaseData.id;
+
+        const { data: fileData, error: fetchError } = await supabase
+            .from('files')
+            .select('*')
+            .eq('id', fileId)
+            .single();
+        
+        if( fetchError || !fileData ){
+            return res.status(404).json({ error: 'File not found' });
+        }
+
+        const { data: updatedFile, error: dbError } = await supabase
+            .from('files')
+            .update({ name: newName })
+            .eq('id', fileId)
+            .select()
+            .single();
+
+        if( dbError ) throw dbError;
+
+        res.json({ message: 'File renamed successfully', file: updatedFile });
+
+    } catch (error){
+        console.error('Rename error: ', error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const deleteFile = async (req, res) => {
+
+    try{
+
+        const { fileId } = req.body;
+        const userId = req.supabaseData.id;
+
+        const { data: fileData, error: fetchError } = await supabase
+            .from('files')
+            .select('*')
+            .eq('id', fileId)
+            .single();
+
+        if( fetchError || !fileData ){
+            res.status(404).json({ error: 'Unauthorized' });
+        }
+
+        const { data: updatedFile, error: dbError } = await supabase
+            .from('files')
+            .update({ is_deleted: true })
+            .eq('id', fileId)
+            .select()
+            .single();
+        
+        if( dbError ) throw dbError;
+        
+        res.json({
+            message: 'File soft-deleted successfully',
+            file: updatedFile
+        });
+
+    } catch(error){
+        console.error('Soft delete error: ', error);
+        res.status(500).json({ error: error.message });
+    }
+};
