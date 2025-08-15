@@ -126,3 +126,46 @@ export const deleteFile = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const hardDeleteFile = async (req, res) => {
+
+    try{
+
+        const { fileId } = req.body;
+        const userId = req.supabaseData.id;
+
+        const { data: fileData, error: fetchError } = await supabase
+            .from('files')
+            .select('*')
+            .eq('id', fileId)
+            .single();
+
+        if( fetchError || !fileData ){
+            return res.status(404).json({ error: 'Unauthorized' });
+        }
+
+        if( userId && fileData.owner_id !== userId ){
+            return res.status(403).json({ error: 'Unauthorized' });
+        }
+
+        const { error: storageError } = await supabase
+            .storage
+            .from(process.env.SUPABASE_BUCKET)
+            .remove([fileData.path]);
+
+        if( storageError ) throw storageError;
+
+        const {error: dbError } = await supabase
+            .from('files')
+            .delete()
+            .eq('id', fileId);
+        
+        if( dbError ) throw dbError;
+
+        res.json({ message: 'File hard-deleted successfully '});
+
+    } catch(error) {
+        console.error('Hard delete error: ', error);
+        res.status(500).json({ error: error.message });
+    }
+};

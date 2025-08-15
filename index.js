@@ -4,6 +4,7 @@ import cors from 'cors';
 import { errorHandler } from "./middlewares/errorHandler.js";
 import authRoutes from './routes/auth.js';
 import fileRoutes from './routes/file.js';
+import folderRoutes from './routes/folder.js';
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 
 app.use('/api/files', fileRoutes);
+
+app.use('/api/folders', folderRoutes);
 
 app.get("/", (req, res, next) => {
     
