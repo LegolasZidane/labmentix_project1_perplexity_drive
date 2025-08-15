@@ -26,6 +26,7 @@ router.patch(
     deleteFile
 );
 
+//Perma-delete file
 router.delete(
     '/hard-delete',
     supabaseProxyAuth(),

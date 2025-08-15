@@ -5,6 +5,7 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 import authRoutes from './routes/auth.js';
 import fileRoutes from './routes/file.js';
 import folderRoutes from './routes/folder.js';
+import sharedFilesRoutes from './routes/sharedFiles.js';
 
 dotenv.config();
 
@@ -19,6 +20,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/files', fileRoutes);
 
 app.use('/api/folders', folderRoutes);
+
+app.use('/api/shared', sharedFilesRoutes);
 
 app.get("/", (req, res, next) => {
     
