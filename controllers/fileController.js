@@ -169,3 +169,36 @@ export const hardDeleteFile = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const searchFiles = async (req, res) => {
+
+    try{
+
+        const userId = req.supabaseData.id;
+        const { q = "", page = 1, limit = 20 } = req.query;
+
+        const pageNumber = Math.max(1, parseInt(page));
+        const limitNumber = Math.max(1, parseInt(limit));
+        const offset = (pageNumber - 1) * limitNumber;
+
+        const { data, error, count } = await supabase
+            .from('files')
+            .select('*', { count: 'exact' })
+            .textSearch('name', q)
+            .eq('owner_id', userId)
+            .range(offset, offset + limitNumber - 1);
+
+        if( error ) throw error;
+        
+        res.json({
+            files: data,
+            page: pageNumber,
+            limit: limitNumber,
+            total: count,
+            totalPages: Math.ceil(count / limitNumber)
+        });
+
+    }   catch(error) {
+        return res.status(500).json({ message: error.message });
+    }
+};

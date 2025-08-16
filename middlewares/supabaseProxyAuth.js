@@ -7,9 +7,15 @@ export function supabaseProxyAuth(){
     
     return async(req, res, next) => {
 
+        const isAccessShared = req.path.startsWith("/api/shared");
         const authHeader = req.headers.authorization;
 
         if( !authHeader ){
+
+            if( isAccessShared ){
+                return next();
+            }
+
             return res.status(401).json({ error: `Unauthorized` });
         }
 
@@ -35,7 +41,7 @@ export function supabaseProxyAuth(){
             next();
         } catch ( error ){
 
-            res.status(500).json({ error: 'Server error', details: err.message });
+            res.status(500).json({ error: 'Server error', details: error.message });
 
         }
     };
