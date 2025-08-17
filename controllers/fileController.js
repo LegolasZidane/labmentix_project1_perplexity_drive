@@ -184,8 +184,8 @@ export const searchFiles = async (req, res) => {
         const { data, error, count } = await supabase
             .from('files')
             .select('*', { count: 'exact' })
-            .textSearch('name', q)
             .eq('owner_id', userId)
+            .ilike("name", `%${q}%`)
             .range(offset, offset + limitNumber - 1);
 
         if( error ) throw error;
