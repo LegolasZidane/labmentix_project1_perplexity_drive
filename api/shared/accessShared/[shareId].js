@@ -1,4 +1,4 @@
-import { accessSharedFile } from '../../controllers/fileShareController.js';
+import { accessSharedFile } from '../../../controllers/fileShareController.js';
 import { supabaseProxyAuth } from '../../../middlewares/supabaseProxyAuth.js';
 
 export default async function handler(req, res){

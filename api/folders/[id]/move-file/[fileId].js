@@ -1,5 +1,5 @@
 import { supabaseProxyAuth } from '../../../../middlewares/supabaseProxyAuth.js';
-import { moveFileToFolder } from '../controllers/folderController.js';
+import { moveFileToFolder } from '../../../../controllers/folderController.js';
 
 export default async function handler(req, res){
     

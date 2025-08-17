@@ -1,4 +1,4 @@
-import { updateSharingPermission } from '../../controllers/fileShareController.js';
+import { updateSharingPermission } from '../../../controllers/fileShareController.js';
 import { supabaseProxyAuth } from '../../../middlewares/supabaseProxyAuth.js';
 
 export default async function handler(req, res){

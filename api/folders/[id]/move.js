@@ -1,4 +1,4 @@
-import { moveFolderToFolder } from '../controllers/folderController.js';
+import { moveFolderToFolder } from '../../../controllers/folderController.js';
 import { supabaseProxyAuth } from '../../../middlewares/supabaseProxyAuth.js';
 
 export default async function handler(req, res){
