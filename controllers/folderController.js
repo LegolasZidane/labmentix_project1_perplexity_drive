@@ -1,4 +1,4 @@
-import { supabase } from '../config/supabaseClient.js';
+import { supabase } from '../utils/supabaseClient.js';
 import { v4 as uuidv4 } from 'uuid';
 import dotenv from 'dotenv';
 
@@ -160,9 +160,9 @@ export const moveFileToFolder = async (req, res) => {
 
     try{
         
-        const { folderId, fileId } = req.params;
+        const { id, fileId } = req.params;
 
-        const targetFolderId = folderId === 'null' ? null : folderId;
+        const targetFolderId = id === 'null' ? null : id;
 
         const { data, error } = await supabase
             .from('files')
