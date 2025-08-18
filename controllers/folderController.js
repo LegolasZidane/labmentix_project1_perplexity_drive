@@ -169,7 +169,7 @@ export const moveFileToFolder = async (req, res) => {
             .update({ folder_id: targetFolderId })
             .eq('id', fileId)
             .eq('owner_id', req.supabaseData.id)
-            .select();
+            .select('*');
         
         if( error ) throw error;
         
