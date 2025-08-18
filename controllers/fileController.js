@@ -8,7 +8,7 @@ export const uploadFile = async (req, res) => {
     try{
 
         const file = req.file;
-        const folderId = req.body.folderId || null;
+        const folderId = req.body?.folderId || null;
         const userId = req.supabaseData.id;
 
         if( !file ){
