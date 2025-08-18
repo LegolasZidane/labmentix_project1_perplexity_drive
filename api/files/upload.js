@@ -1,5 +1,5 @@
-import { uploadFile } from '../controllers/fileController.js';
-import { supabaseProxyAuth } from '../middlewares/supabaseProxyAuth.js';
+import { uploadFile } from '../../controllers/fileController.js';
+import { supabaseProxyAuth } from '../../middlewares/supabaseProxyAuth.js';
 
 export default async function handler(req, res){
     

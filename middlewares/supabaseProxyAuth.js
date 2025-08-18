@@ -7,42 +7,46 @@ export function supabaseProxyAuth(){
     
     return async(req, res, next) => {
 
-        const isAccessShared = req.path.startsWith("/api/shared");
-        const authHeader = req.headers.authorization;
+        try{ 
+            const isAccessShared = req.path.startsWith("/api/shared");
+            const authHeader = req.headers.authorization;
 
-        if( !authHeader ){
+            if( !authHeader ){
 
-            if( isAccessShared ){
-                return next();
-            }
-
-            return res.status(401).json({ error: `Unauthorized` });
-        }
-
-        const token = authHeader.split(' ')[1];
-
-        try{
-
-            const supabaseResponse = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'apikey': SUPABASE_ANON_KEY
+                if( isAccessShared ){
+                    return next();
                 }
-            });
 
-            if( supabaseResponse.status === 401 ){
-                return res.status(401).json({ error: `Invalid or expired token` });
+                return res.status(401).json({ error: `Unauthorized` });
             }
 
-            const data = await supabaseResponse.json();
-            req.supabaseData = data;
-            
-            next();
-        } catch ( error ){
+            const token = authHeader.split(' ')[1];
 
-            res.status(500).json({ error: 'Server error', details: error.message });
+            try{
 
+                const supabaseResponse = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'apikey': SUPABASE_ANON_KEY
+                    }
+                });
+
+                if( supabaseResponse.status === 401 ){
+                    return res.status(401).json({ error: `Invalid or expired token` });
+                }
+
+                const data = await supabaseResponse.json();
+                req.supabaseData = data;
+                
+                return next();
+            } catch ( error ){
+
+                return res.status(500).json({ error: 'Server error', details: error.message });
+
+            }
+        }   catch(error) {
+            return res.status(500).json({ error: 'Server error', details: error.message });
         }
     };
 }
