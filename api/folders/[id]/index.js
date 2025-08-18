@@ -1,5 +1,5 @@
-import { getFoldersFiles, renameFolder, deleteFolder } from '../../controllers/folderController.js';
-import { supabaseProxyAuth } from '../../middlewares/supabaseProxyAuth.js';
+import { getFoldersFiles, renameFolder, deleteFolder } from '../../../controllers/folderController.js';
+import { supabaseProxyAuth } from '../../../middlewares/supabaseProxyAuth.js';
 
 export default async function handler(req, res){
     
