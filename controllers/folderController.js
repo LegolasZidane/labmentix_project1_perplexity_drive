@@ -164,6 +164,15 @@ export const moveFileToFolder = async (req, res) => {
 
         const targetFolderId = id === 'null' ? null : id;
 
+        console.log('fileId:', fileId);
+        console.log('userId:', req.supabaseData.id);
+
+        const { data: fileCheck, error: checkError } = await supabase
+        .from('files')
+        .select('*')
+        .eq('id', fileId);
+
+        console.log('fileCheck:', fileCheck, 'checkError:', checkError);
         const { data, error } = await supabase
             .from('files')
             .update({ folder_id: targetFolderId })
