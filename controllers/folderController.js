@@ -172,6 +172,10 @@ export const moveFileToFolder = async (req, res) => {
             .select('*');
         
         if( error ) throw error;
+
+        if( !data || data.length === 0 ){
+            return res.status(404).json({ message: 'File not found or no permission' });
+        }
         
         res.json({ message: 'File moved', file: data[0] });
 
