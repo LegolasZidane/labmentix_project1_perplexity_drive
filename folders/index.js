@@ -1,5 +1,5 @@
-import { supabaseProxyAuth } from '../../middlewares/supabaseProxyAuth.js';
-import { createFolder, getRootFiles } from '../../controllers/folderController.js'
+import { supabaseProxyAuth } from '../middlewares/supabaseProxyAuth.js';
+import { createFolder, getRootFiles } from '../controllers/folderController.js'
 
 export default async function handler(req, res){
     
