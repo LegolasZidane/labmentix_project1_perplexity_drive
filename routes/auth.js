@@ -8,6 +8,6 @@ router.post('/signup', signup);
 
 router.post('/login', login);
 
-router.post('/logout', supabaseProxyAuth(), logout);
+router.post('/logout', supabaseProxyAuth, logout);
 
 export default router;

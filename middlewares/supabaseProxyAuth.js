@@ -6,7 +6,7 @@ dotenv.config();
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_KEY;
 
-export async function supabaseProxyAuth(req, res){
+export async function supabaseProxyAuth(req, res, next){
 
     try{ 
         const isAccessShared = req.path?.startsWith("/api/shared");
@@ -15,11 +15,11 @@ export async function supabaseProxyAuth(req, res){
         if( !authHeader ){
 
             if( isAccessShared ){
-                return null;
+                return next();
             }
 
-            res.status(401).json({ error: `Unauthorized` });
-            return "error";
+            return res.status(401).json({ error: `Unauthorized` });
+            
         }
 
         const token = authHeader.split(' ')[1];
@@ -35,14 +35,13 @@ export async function supabaseProxyAuth(req, res){
             });
 
             if( supabaseResponse.status === 401 ){
-                res.status(401).json({ error: `Invalid or expired token` });
-                return "error";
+                return res.status(401).json({ error: `Invalid or expired token` });
             }
 
             const data = await supabaseResponse.json();
             req.supabaseData = data;
             
-            return null;
+            next();
         } catch ( error ){
 
             return res.status(500).json({ error: 'Server error', details: error.message });

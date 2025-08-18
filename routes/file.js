@@ -14,32 +14,32 @@ const router = express.Router();
 //Upload file
 router.post(
     '/upload',
-    supabaseProxyAuth(),
+    supabaseProxyAuth,
     upload.single('file'),
     uploadFile    
 );
 
 //Rename file
 router.patch('/rename', 
-    supabaseProxyAuth(), 
+    supabaseProxyAuth, 
     renameFile
 );
 
 //Soft-delete file
 router.patch(
     '/delete',
-    supabaseProxyAuth(),
+    supabaseProxyAuth,
     deleteFile
 );
 
 //Perma-delete file
 router.delete(
     '/hard-delete',
-    supabaseProxyAuth(),
+    supabaseProxyAuth,
     hardDeleteFile
 );
 
 //Search for files
-router.post('/search', supabaseProxyAuth(), searchFiles);
+router.post('/search', supabaseProxyAuth, searchFiles);
 
 export default router;
