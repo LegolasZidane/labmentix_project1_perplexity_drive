@@ -200,7 +200,7 @@ export const moveFolderToFolder = async (req, res) => {
                 .single();
             
             if( fetchError || !existingFolder ){
-                res.json(404).json({ error: 'Folder not found' });
+                return res.status(404).json({ error: 'Folder not found' });
             }
 
             if( new_parent_id ){
