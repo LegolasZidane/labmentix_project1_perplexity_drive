@@ -117,7 +117,7 @@ export const deleteFile = async (req, res) => {
         if( dbError ) throw dbError;
         
         res.json({
-            message: 'File soft-deleted successfully',
+            message: 'File moved to Trash',
             file: updatedFile
         });
 
